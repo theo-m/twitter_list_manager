@@ -4,7 +4,7 @@ import twitter
 import dotenv
 
 import os
-from typing import List, NamedTuple, Dict
+from typing import List, NamedTuple
 
 TwitterList = NamedTuple("TwitterList", (("props", twitter.List), ("members", List[twitter.User])))
 
@@ -119,6 +119,7 @@ def loop():
 
         print(f"Adding '{u.name}' to '{list_props.full_name}'")
         api.CreateListsMember(list_id=list_props.id, user_id=u.id)
+        lists[int(inp)].members.append(u)
 
 
 if __name__ == '__main__':
