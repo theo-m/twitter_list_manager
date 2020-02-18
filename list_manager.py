@@ -24,7 +24,7 @@ def loop_start_screen(idx: int, u: twitter.User, lists: List[TwitterList]):
     print("\n---\n[r]: refresh lists")
     print("[c]: create a new list")
     print("[u]: unfollow")
-    print("[n]: next")
+    print("[n|⏎]: next")
     print("[p]: previous")
     print("[g]: go to index")
     print("[q]: quit")
@@ -35,8 +35,8 @@ def loop_start_screen(idx: int, u: twitter.User, lists: List[TwitterList]):
 
 def _get_input():
     while True:
-        inp = input("Enter a command or a list number: ").strip()
-        if inp not in ["r", "c", "n", "p", "u", "q", "g"]:
+        inp = input("\nEnter a command or a list number: ").strip()
+        if inp not in ["r", "c", "n", "p", "u", "q", "g", ""]:
             try:
                 int(inp)
             except ValueError:
@@ -91,7 +91,7 @@ def loop():
             break
 
         # --- Next user
-        if inp == "n":
+        if inp == "n" or inp == "":
             idx += 1
             continue
 
@@ -115,6 +115,7 @@ def loop():
         # --- Unfollow
         if inp == "u":
             api.DestroyFriendship(user_id=u.id)
+            following.remove(u)
             idx += 1
             continue
 
