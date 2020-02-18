@@ -17,8 +17,6 @@ def loop_start_screen(idx: int, u: twitter.User, lists: List[TwitterList]):
         f"[{idx:4d}] @{u.screen_name} '{u.name}' - https://twitter.com/{u.screen_name}\n{u.description}\n---\n"
     )
     for i, (list_props, list_members) in enumerate(lists):
-        if not list_props.full_name.startswith("@theo_matussiere/"):
-            continue
         inlist = (
             "*" if u.screen_name in [u_.screen_name for u_ in list_members] else " "
         )
