@@ -6,15 +6,22 @@ import dotenv
 import os
 from typing import List, NamedTuple
 
-TwitterList = NamedTuple("TwitterList", (("props", twitter.List), ("members", List[twitter.User])))
+TwitterList = NamedTuple(
+    "TwitterList", (("props", twitter.List), ("members", List[twitter.User]))
+)
 
 
 def loop_start_screen(idx: int, u: twitter.User, lists: List[TwitterList]):
     print("\033c", end="")  # Clears the screen
-    print(f"[{idx:4d}] @{u.screen_name} '{u.name}' - https://twitter.com/{u.screen_name}\n{u.description}\n---\n")
-    for i, (list_props, list_members)  in enumerate(lists):
-        if not list_props.full_name.startswith("@theo_matussiere/"): continue
-        inlist = "*" if u.screen_name in [u_.screen_name for u_ in list_members] else " "
+    print(
+        f"[{idx:4d}] @{u.screen_name} '{u.name}' - https://twitter.com/{u.screen_name}\n{u.description}\n---\n"
+    )
+    for i, (list_props, list_members) in enumerate(lists):
+        if not list_props.full_name.startswith("@theo_matussiere/"):
+            continue
+        inlist = (
+            "*" if u.screen_name in [u_.screen_name for u_ in list_members] else " "
+        )
         print(f"[{i:3d}]: {inlist} {list_props.name}")
     print("\n---\n[r]: refresh lists")
     print("[c]: create a new list")
@@ -53,7 +60,9 @@ def get_api() -> twitter.Api:
 
 def get_lists(api: twitter.Api) -> List[TwitterList]:
     _lists = api.GetListsList()
-    lists = [TwitterList(lst, api.GetListMembers(lst.id)) for i, lst in enumerate(_lists)]
+    lists = [
+        TwitterList(lst, api.GetListMembers(lst.id)) for i, lst in enumerate(_lists)
+    ]
     return sorted(lists, key=lambda lst: lst.props.full_name)
 
 
@@ -122,5 +131,5 @@ def loop():
         lists[int(inp)].members.append(u)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     loop()
