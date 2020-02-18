@@ -116,7 +116,6 @@ def loop():
         if inp == "u":
             api.DestroyFriendship(user_id=u.id)
             following.remove(u)
-            idx += 1
             continue
 
         try:
